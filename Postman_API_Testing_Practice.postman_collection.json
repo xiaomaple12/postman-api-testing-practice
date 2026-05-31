@@ -21,7 +21,7 @@
               "\r",
               "pm.test(\"Response name is Amy\", function () {\r",
               "    const response = pm.response.json();\r",
-              "    pm.expect(response.json.name).to.eql(\"Bob\");\r",
+              "    pm.expect(response.json.name).to.eql(\"Amy\");\r",
               "});\r",
               "\r",
               "pm.test(\"Response has email field\", function () {\r",
