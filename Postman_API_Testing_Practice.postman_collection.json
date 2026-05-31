@@ -1,0 +1,420 @@
+{
+  "info": {
+    "_postman_id": "94f53e03-63e4-46a2-adf7-abac35fc6a87",
+    "name": "Postman API Testing Practice",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55312013",
+    "_collection_link": "https://go.postman.co/collection/55312013-94f53e03-63e4-46a2-adf7-abac35fc6a87?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "02 POST - Create User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response name is Amy\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.json.name).to.eql(\"Amy\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has email field\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.json).to.have.property(\"email\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response email is correct\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.json.email).to.eql(\"amy@gmail.com\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Save name to environment variable\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.environment.set(\"userName\", response.json.name);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Save email to environment variable\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.environment.set(\"userEmail\", response.json.email);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Amy\",\r\n  \"email\": \"amy@gmail.com\",\r\n  \"status\": \"active\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/post",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "post"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "01 GET - Query Params",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Query param name matches userName variable\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    const userName = pm.environment.get(\"userName\");\r",
+              "    pm.expect(response.args.name).to.eql(userName);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Query param status is active\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.args.status).to.eql(\"active\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Query param email matches userEmail variable\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    const userEmail = pm.environment.get(\"userEmail\");\r",
+              "    pm.expect(response.args.email).to.eql(userEmail);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/get?name={{userName}}&status=active&email={{userEmail}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "get"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "{{userName}}"
+            },
+            {
+              "key": "status",
+              "value": "active"
+            },
+            {
+              "key": "email",
+              "value": "{{userEmail}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "03 PUT - Update Full User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response name is Amy Chen\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.json.name).to.eql(\"Amy Chen\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response email is updated\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.json.email).to.eql(\"amy_new@gmail.com\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has id field\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.json).to.have.property(\"id\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": 1,\r\n  \"name\": \"Amy Chen\",\r\n  \"email\": \"amy_new@gmail.com\",\r\n  \"status\": \"active\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/put",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "put"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "04 PATCH - Update User Status",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response status is inactive\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.json.status).to.eql(\"inactive\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has status field\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.json).to.have.property(\"status\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"status\":\"inactive\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/patch",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "patch"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "05 DELETE - Delete User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Request method is DELETE\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.url).to.eql(\"https://postman-echo.com/delete\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/delete",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "delete"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "06 GET - Authorization Header",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Authorization header is sent correctly\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    const token = pm.environment.get(\"token\");\r",
+              "    pm.expect(response.headers.authorization).to.eql(\"Bearer \" + token);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/headers",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "headers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "07 POST - Pre-request Random Email",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const randomNumber = Math.floor(Math.random() * 100000);\r",
+              "const randomEmail = \"test\" + randomNumber + \"@gmail.com\";\r",
+              "\r",
+              "pm.environment.set(\"randomEmail\", randomEmail);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Random email is sent correctly\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    const randomEmail = pm.environment.get(\"randomEmail\");\r",
+              "\r",
+              "    pm.expect(response.json.email).to.eql(randomEmail);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response name is Test User\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.json.name).to.eql(\"Test User\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Test User\",\r\n  \"email\": \"{{randomEmail}}\",\r\n  \"status\": \"active\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/post",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "post"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
